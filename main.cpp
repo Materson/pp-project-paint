@@ -32,6 +32,31 @@ void displayMenu(menu_t menu,char zn)
 	gotoxy(menu.co.x, menu.co.y+5);
 	cputs(menu.key_code);
 }
+/*
+    return -1 if not a number
+*/
+int getint()
+{
+    int w = 0, zn = 0;
+    while(1)
+    {
+        zn = getche();
+
+        if(zn!=ENTER)
+        {
+            zn-=48;
+            if(zn < 0 || zn > 9)
+                return -1;
+            w = (w*10) + zn;
+        }
+        else
+        {
+            cputs("\n");
+            return w;
+        }
+
+    }
+}
 
 void newPicture()
 {
@@ -39,17 +64,19 @@ void newPicture()
     textbackground(BLACK);
     clrscr();
     gotoxy(1,1);
-    cputs("Podaj rozmiar obrazka:\n");
+    cputs("Podaj rozmiar obrazka\n");
     cputs("Wysokosc: ");
-//    do
-//    {
-//        h = getch();
-//    } while(h!=ENTER);
+    do
+    {
+        h = getint();
+    }while(h <= 0);
 
 
     cputs("Szerokosc: ");
-    w = getch();
-    getch();
+    do
+    {
+        w = getint();
+    }while(w <= 0);
 
 }
 
@@ -63,7 +90,7 @@ int main() {
 	// Conio2_Init();
 	settitle("Mateusz Szymanowski 165319");
 
-	do {
+	/*do {
 		textbackground(CONSOLE_BACKGROUND);
 		clrscr();
 
@@ -97,7 +124,7 @@ int main() {
 		}
 
 
-	} while (zn != ESC);
+	} while (zn != ESC);*/
 
     textcolor(LIGHTGRAY);
     textbackground(BLACK);
