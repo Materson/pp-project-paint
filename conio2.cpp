@@ -168,11 +168,11 @@ static void ResizeConsole(HANDLE con, int w, int h, int d) {
 
 
 static void InitConio2(Conio2ThreadData *data) {
-	data->output = GetStdHandle(STD_OUTPUT_HANDLE); 
-	data->input = GetStdHandle(STD_INPUT_HANDLE); 
+	data->output = GetStdHandle(STD_OUTPUT_HANDLE);
+	data->input = GetStdHandle(STD_INPUT_HANDLE);
 	data->ungetCount = 0;
 	data->charCount = 0;
-	
+
 	CONSOLE_SCREEN_BUFFER_INFO info;
 	BOOL rc = GetConsoleScreenBufferInfo(data->output, &info);
 	if(rc) {
@@ -224,7 +224,7 @@ int wherex() {
 
 
 EXTERNC
-int wherey() {	
+int wherey() {
 	int y;
 	GetCP(NULL, &y);
 	return y;
