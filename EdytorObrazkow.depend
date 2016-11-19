@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1479554339 source:d:\studia\podstawy programowania\edytorobrazkow\main.cpp
+	<stdlib.h>
+	"conio2.h"
+
+1476798059 d:\studia\podstawy programowania\edytorobrazkow\conio2.h
+
+1477487552 source:d:\studia\podstawy programowania\edytorobrazkow\conio2.cpp
+	<stdio.h>
+	<malloc.h>
+	<string.h>
+	<windows.h>
+	"conio2.h"
+	<stdlib.h>
+
+1477487552 source:d:\studia\podstawy programowania\projekt 1\conio2.cpp
+	<stdio.h>
+	<malloc.h>
+	<string.h>
+	<windows.h>
+	"conio2.h"
+	<stdlib.h>
+
+1476798059 d:\studia\podstawy programowania\projekt 1\conio2.h
+
+1479554465 source:d:\studia\podstawy programowania\projekt 1\main.cpp
+	<stdlib.h>
+	"conio2.h"
+
