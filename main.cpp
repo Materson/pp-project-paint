@@ -58,9 +58,9 @@ int getint()
     }
 }
 
-void newPicture()
+picture_t initPicture()
 {
-    int h,w;
+    picture_t pic;
     textbackground(BLACK);
     clrscr();
     gotoxy(1,1);
@@ -68,16 +68,23 @@ void newPicture()
     cputs("Wysokosc: ");
     do
     {
-        h = getint();
-    }while(h <= 0);
-
+        pic.h = getint();
+    }while(pic.h <= 0);
 
     cputs("Szerokosc: ");
     do
     {
-        w = getint();
-    }while(w <= 0);
+        pic.w = getint();
+    }while(pic.w <= 0);
 
+    char tab[pic.h][pic.w]={};
+    pic.pixels = (char**) malloc(pic.h*pic.w*sizeof(char));
+    for(int i=0; i<pic.h; i++)
+    {
+        *pic.pixels[i]=&tab[i];
+    }
+
+    return pic;
 }
 
 int main() {
@@ -89,6 +96,22 @@ int main() {
 	// proszê odkomentowaæ poni¿sz¹ liniê
 	// Conio2_Init();
 	settitle("Mateusz Szymanowski 165319");
+
+    picture_t pic = initPicture();
+    for(int i=0; i<pic.h;i++)
+        for(int j=0; j<pic.w; j++)
+        {
+            pic.pixels[i][j]=getch();
+        }
+        for(int i=0; i<pic.h;i++)
+        {
+            for(int j=0; j<pic.w; j++)
+            {
+                putch(pic.pixels[i][j]);
+            }
+            cputs("\n");
+        }
+
 
 	/*do {
 		textbackground(CONSOLE_BACKGROUND);

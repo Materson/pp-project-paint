@@ -49,3 +49,10 @@ typedef struct
     int background = BLACK;
     status_t status = DEFAULT;
 }cursor_t;
+
+typedef struct
+{
+    char name[];
+    int w,h;
+    char **pixels;
+}picture_t;
