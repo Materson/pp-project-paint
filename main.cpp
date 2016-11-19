@@ -33,6 +33,26 @@ void displayMenu(menu_t menu,char zn)
 	cputs(menu.key_code);
 }
 
+void newPicture()
+{
+    int h,w;
+    textbackground(BLACK);
+    clrscr();
+    gotoxy(1,1);
+    cputs("Podaj rozmiar obrazka:\n");
+    cputs("Wysokosc: ");
+//    do
+//    {
+//        h = getch();
+//    } while(h!=ENTER);
+
+
+    cputs("Szerokosc: ");
+    w = getch();
+    getch();
+
+}
+
 int main() {
     menu_t menu;
     cursor_t cursor;
@@ -70,6 +90,9 @@ int main() {
              break;
         case ENTER:
             cursor.background = (cursor.background + 1) % 16;
+            break;
+        case 'n':
+            newPicture();
             break;
 		}
 

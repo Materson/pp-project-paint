@@ -2,7 +2,7 @@
 
 #define START_C_X 40
 #define START_C_Y 12
-#define START_M_X 55
+#define START_M_X 1
 #define START_M_Y 1
 
 #define UP 0x48

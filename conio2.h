@@ -65,8 +65,8 @@ void clrscr(void);
 void delline(void);
 void insline(void);
 
-int getch(void);
-int getche(void);
+int getch(void);    //pobiera znak
+int getche(void);   //pobiera znak i wypisuje
 int kbhit(void);
 int ungetch(int ch);
 
