@@ -65,6 +65,8 @@ picture_t initPicture()
     textbackground(BLACK);
     clrscr();
     gotoxy(1,1);
+
+    //get size
     cputs("Podaj rozmiar obrazka\n");
     cputs("Wysokosc: ");
     do
@@ -78,13 +80,12 @@ picture_t initPicture()
         pic.w = getint();
     }while(pic.w <= 0);
 
+    //create a matrix
     pic.pixels = (char **) malloc(pic.h*pic.w*sizeof(char));
     if(pic.pixels==NULL)
     {
         cputs("Blad przyznania pamieci\n");
     }
-
-
     for(int i=0; i<pic.h; i++)
     {
         pic.pixels[i]=(char *)malloc(pic.w*sizeof(char));
@@ -94,7 +95,33 @@ picture_t initPicture()
         }
     }
 
+    //fill matrix default color
+    for(int i=0; i<pic.h; i++)
+        for(int j=0; j<pic.w; j++)
+        {
+            pic.pixels[i][j] = WHITE;
+        }
+
     return pic;
+}
+
+void drawPicture(picture_t pic)
+{
+    cursor_t pencil;
+    pencil.co.x=START_M_X+32+1;
+    pencil.co.y=START_M_Y+6+1;
+    for(int i=0; i<pic.h;i++)
+    {
+        pencil.co.x=START_M_X+32+1;
+        for(int j=0; j<pic.w; j++)
+        {
+            textbackground(pic.pixels[i][j]);
+            gotoxy(pencil.co.x, pencil.co.y);
+            putch(' ');
+            pencil.co.x++;
+        }
+        pencil.co.y++;
+    }
 }
 
 int main() {
@@ -107,27 +134,15 @@ int main() {
 	// Conio2_Init();
 	settitle("Mateusz Szymanowski 165319");
 
-    picture_t pic = initPicture();
-
-    for(int i=0; i<pic.h;i++)
-        for(int j=0; j<pic.w; j++)
-        {
-            pic.pixels[i][j]=getch();
-        }
-        for(int i=0; i<pic.h;i++)
-        {
-            for(int j=0; j<pic.w; j++)
-            {
-                putch(pic.pixels[i][j]);
-            }
-            cputs("\n");
-        }
-
-
-	/*do {
+    do {
 		textbackground(CONSOLE_BACKGROUND);
 		clrscr();
 
+        switch(pic.status)
+        {
+        case DEFAULT:
+
+        }
 		displayMenu(menu, zn);
 
 		gotoxy(cursor.co.x, cursor.co.y);
@@ -153,12 +168,13 @@ int main() {
             cursor.background = (cursor.background + 1) % 16;
             break;
         case 'n':
-            newPicture();
+            picture_t pic = initPicture();
+            drawPicture(pic);
             break;
 		}
 
 
-	} while (zn != ESC);*/
+	} while (zn != ESC);
 
     textcolor(LIGHTGRAY);
     textbackground(BLACK);
