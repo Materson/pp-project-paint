@@ -9,20 +9,28 @@
 
 void displayMenu(menu_t menu, char zn, status_t status)
 {
-    textcolor(LIGHTGRAY);
+    textcolor(TEXT_COLOR);
     gotoxy(menu.co.x, menu.co.y);
 
     switch(status)
     {
     case DEFAULT:
         cputs("esc = wyjscie");
-        gotoxy(menu.co.x, menu.co.y+2);
+        gotoxy(menu.co.x, menu.co.y+1);
         cputs("strzalki = poruszanie");
-        gotoxy(menu.co.x, menu.co.y+3);
+        gotoxy(menu.co.x, menu.co.y+2);
         cputs("spacja = zmiana koloru");
+        gotoxy(menu.co.x, menu.co.y+3);
+        cputs("n = nowy obraz");
         gotoxy(menu.co.x, menu.co.y+4);
-        cputs("n = stworz obrazek");
-        gotoxy(menu.co.x, menu.co.y+5);
+        break;
+    case DRAW:
+        cputs("esc = wyjscie");
+        gotoxy(menu.co.x, menu.co.y+1);
+        cputs("strzalki = poruszanie");
+        gotoxy(menu.co.x, menu.co.y+2);
+        cputs("spacja = zmiana koloru");
+        gotoxy(menu.co.x, menu.co.y+3);
         break;
     }
 
@@ -37,7 +45,8 @@ void displayMenu(menu_t menu, char zn, status_t status)
 	} else {
 		itoa(zn, menu.key_code + 16, 16);
 		}
-	gotoxy(menu.co.x, menu.co.y+5);
+
+	gotoxy(menu.co.x, menu.co.y+4);
 	cputs(menu.key_code);
 }
 
@@ -63,14 +72,14 @@ int getint()
             cputs("\n");
             return w;
         }
-
     }
 }
 
 picture_t initPicture()
 {
     picture_t pic;
-    textbackground(BLACK);
+    textbackground(CONSOLE_BACKGROUND);
+    textcolor(TEXT_COLOR);
     clrscr();
     gotoxy(1,1);
 
@@ -115,14 +124,14 @@ picture_t initPicture()
     return pic;
 }
 
-void drawPicture(picture_t pic)
+void displayPicture(picture_t pic)
 {
     cursor_t pencil;
-    pencil.co.x=START_M_X+32+1;
-    pencil.co.y=START_M_Y+6+1;
+    pencil.co.x=START_P_X;
+    pencil.co.y=START_P_Y;
     for(int i=0; i<pic.h;i++)
     {
-        pencil.co.x=START_M_X+32+1;
+        pencil.co.x=START_P_X;
         for(int j=0; j<pic.w; j++)
         {
             textbackground(pic.pixels[i][j]);
@@ -134,11 +143,21 @@ void drawPicture(picture_t pic)
     }
 }
 
+void draw(picture_t pic, cursor_t pencil)
+{
+    int x,y;
+    x = pencil.co.x-START_P_X;
+    y = pencil.co.y-START_P_Y;
+    if(x >= 0 && x < pic.w && y >= 0 && y < pic.h )
+        pic.pixels[y][x]=pencil.background;
+}
+
 int main() {
     menu_t menu;
     cursor_t cursor;
     picture_t pic;
 	int zn = 0;
+	textcolor(TEXT_COLOR);
 
 	// je¿eli program jest kompilowany w czystym jêzyku C
 	// proszê odkomentowaæ poni¿sz¹ liniê
@@ -152,11 +171,17 @@ int main() {
         switch(pic.status)
         {
         case DEFAULT:
-            displayMenu(menu,zn);
+            displayMenu(menu,zn, pic.status);
             break;
         case DRAW:
-            displayMenu(menu, zn);
-            drawPicture(pic);
+            displayMenu(menu, zn, pic.status);
+            displayPicture(pic);
+            break;
+        case DRAW_LINE:
+
+            break;
+        case DRAW_RECTANGLE:
+
             break;
         }
 
@@ -184,6 +209,9 @@ int main() {
             break;
         case 'n':
             pic = initPicture();
+            break;
+        case 'm':
+            draw(pic,cursor);
             break;
 		}
 

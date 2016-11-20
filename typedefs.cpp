@@ -1,7 +1,7 @@
 #include"conio2.h"
 
-#define START_C_X 40
-#define START_C_Y 12
+#define START_P_X 1
+#define START_P_Y 8
 #define START_M_X 1
 #define START_M_Y 1
 
@@ -12,7 +12,9 @@
 #define ESC 0x1b
 #define ENTER 0x0d
 
-#define CONSOLE_BACKGROUND BLACK
+#define CONSOLE_BACKGROUND DARKGRAY
+#define TEXT_COLOR BLACK
+
 
 
 typedef enum
@@ -42,7 +44,7 @@ typedef struct
 
 typedef struct
 {
-    coordinate_t co = {START_C_X, START_C_Y};
+    coordinate_t co = {START_P_X, START_P_Y};
     char value = '*';
     int color = LIGHTGRAY;
     int background = BLACK;
