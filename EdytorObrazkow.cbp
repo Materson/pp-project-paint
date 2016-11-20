@@ -35,6 +35,7 @@
 		<Unit filename="conio2.cpp" />
 		<Unit filename="conio2.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="typedefs.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -1,4 +1,5 @@
 #include<stdlib.h>
+#include<iostream>
 #include"conio2.h"
 #include"typedefs.cpp"
 
@@ -77,11 +78,20 @@ picture_t initPicture()
         pic.w = getint();
     }while(pic.w <= 0);
 
-    char tab[pic.h][pic.w]={};
-    pic.pixels = (char**) malloc(pic.h*pic.w*sizeof(char));
+    pic.pixels = (char **) malloc(pic.h*pic.w*sizeof(char));
+    if(pic.pixels==NULL)
+    {
+        cputs("Blad przyznania pamieci\n");
+    }
+
+
     for(int i=0; i<pic.h; i++)
     {
-        *pic.pixels[i]=&tab[i];
+        pic.pixels[i]=(char *)malloc(pic.w*sizeof(char));
+        if(pic.pixels[i]==NULL)
+        {
+            cputs("Blad przyznania pamieci\n");
+        }
     }
 
     return pic;
@@ -98,6 +108,7 @@ int main() {
 	settitle("Mateusz Szymanowski 165319");
 
     picture_t pic = initPicture();
+
     for(int i=0; i<pic.h;i++)
         for(int j=0; j<pic.w; j++)
         {

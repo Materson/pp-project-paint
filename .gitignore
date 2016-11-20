@@ -2,3 +2,4 @@ wyklad10.pdf
 bin/*
 obj/*
 *.depend
+*.layout
