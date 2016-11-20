@@ -38,7 +38,6 @@ typedef struct
     char key_code[32] = "kod klawisza: 0x";
     int arrows = 0;
     coordinate_t co = {START_M_X, START_M_Y};
-    status_t status = DEFAULT;
 }menu_t;
 
 typedef struct
@@ -47,7 +46,6 @@ typedef struct
     char value = '*';
     int color = LIGHTGRAY;
     int background = BLACK;
-    status_t status = DEFAULT;
 }cursor_t;
 
 typedef struct
@@ -55,4 +53,5 @@ typedef struct
     char name[];
     int w,h;
     char **pixels;
+    status_t status = DEFAULT;
 }picture_t;

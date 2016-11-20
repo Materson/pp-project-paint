@@ -1,5 +1,4 @@
 #include<stdlib.h>
-#include<iostream>
 #include"conio2.h"
 #include"typedefs.cpp"
 
@@ -8,17 +7,25 @@
    wartosci numeryczne umieszczajac w ich miejsce
    dobrze dobrane identyfikatory */
 
-void displayMenu(menu_t menu,char zn)
+void displayMenu(menu_t menu, char zn, status_t status)
 {
     textcolor(LIGHTGRAY);
     gotoxy(menu.co.x, menu.co.y);
-    cputs("esc = wyjscie");
-	gotoxy(menu.co.x, menu.co.y+2);
-	cputs("strzalki = poruszanie");
-	gotoxy(menu.co.x, menu.co.y+3);
-	cputs("spacja = zmiana koloru");
-	gotoxy(menu.co.x, menu.co.y+4);
-	cputs("enter = zmiana koloru tla");
+
+    switch(status)
+    {
+    case DEFAULT:
+        cputs("esc = wyjscie");
+        gotoxy(menu.co.x, menu.co.y+2);
+        cputs("strzalki = poruszanie");
+        gotoxy(menu.co.x, menu.co.y+3);
+        cputs("spacja = zmiana koloru");
+        gotoxy(menu.co.x, menu.co.y+4);
+        cputs("n = stworz obrazek");
+        gotoxy(menu.co.x, menu.co.y+5);
+        break;
+    }
+
 	if(menu.arrows) {
 		menu.key_code[16] = '0';
 		menu.key_code[17] = '0';
@@ -33,6 +40,7 @@ void displayMenu(menu_t menu,char zn)
 	gotoxy(menu.co.x, menu.co.y+5);
 	cputs(menu.key_code);
 }
+
 /*
     return -1 if not a number
 */
@@ -102,6 +110,8 @@ picture_t initPicture()
             pic.pixels[i][j] = WHITE;
         }
 
+    pic.status = DRAW;
+
     return pic;
 }
 
@@ -127,6 +137,7 @@ void drawPicture(picture_t pic)
 int main() {
     menu_t menu;
     cursor_t cursor;
+    picture_t pic;
 	int zn = 0;
 
 	// je¿eli program jest kompilowany w czystym jêzyku C
@@ -141,9 +152,13 @@ int main() {
         switch(pic.status)
         {
         case DEFAULT:
-
+            displayMenu(menu,zn);
+            break;
+        case DRAW:
+            displayMenu(menu, zn);
+            drawPicture(pic);
+            break;
         }
-		displayMenu(menu, zn);
 
 		gotoxy(cursor.co.x, cursor.co.y);
 		textcolor(cursor.color);
@@ -168,8 +183,7 @@ int main() {
             cursor.background = (cursor.background + 1) % 16;
             break;
         case 'n':
-            picture_t pic = initPicture();
-            drawPicture(pic);
+            pic = initPicture();
             break;
 		}
 
