@@ -168,13 +168,11 @@ int main() {
 		textbackground(CONSOLE_BACKGROUND);
 		clrscr();
 
+		displayMenu(menu,zn, pic.status);
+
         switch(pic.status)
         {
-        case DEFAULT:
-            displayMenu(menu,zn, pic.status);
-            break;
         case DRAW:
-            displayMenu(menu, zn, pic.status);
             displayPicture(pic);
             break;
         case DRAW_LINE:
@@ -196,10 +194,10 @@ int main() {
         case 0:
             menu.arrows = 1;
             zn = getch();
-            if(zn == UP) cursor.co.y--;
-            else if(zn == DOWN) cursor.co.y++;
-            else if(zn == LEFT) cursor.co.x--;
-            else if(zn == RIGHT) cursor.co.x++;
+            if(zn == RIGHT) cursor.co.x = (cursor.co.x - START_P_X + 1) % pic.w + START_P_X;
+            else if(zn == DOWN) cursor.co.y = (cursor.co.y - START_P_Y + 1) % pic.h + START_P_Y;
+            if(zn == UP) if((cursor.co.y = (cursor.co.y - 1)) < START_P_Y) cursor.co.y = START_P_Y + pic.h - 1;
+            if(zn == LEFT) if((cursor.co.x = (cursor.co.x  - 1)) < START_P_X) cursor.co.x = START_P_X + pic.w - 1;
             break;
         case ' ':
              cursor.color = (cursor.color + 1) % 16;

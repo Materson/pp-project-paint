@@ -53,7 +53,7 @@ typedef struct
 typedef struct
 {
     char name[];
-    int w,h;
+    int w=1,h=1;
     char **pixels;
     status_t status = DEFAULT;
 }picture_t;
