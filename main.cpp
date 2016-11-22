@@ -124,6 +124,19 @@ picture_t initPicture()
     return pic;
 }
 
+void changeColor(cursor_t *pencil, int zn)
+{
+    for(int i=0; i < sizeof(pencil->colors)/sizeof(pencil->colors[0]); i++)
+    {
+        if(zn == pencil->colors[i])
+        {
+            textbackground(i);
+            pencil->background = i;
+            break;
+        }
+    }
+}
+
 void displayPicture(picture_t pic)
 {
     cursor_t pencil;
@@ -184,7 +197,7 @@ int main() {
         }
 
 		gotoxy(cursor.co.x, cursor.co.y);
-		textcolor(cursor.color);
+		textcolor(BLACK);
 		textbackground(cursor.background);
 		putch(cursor.value);
 
@@ -202,15 +215,15 @@ int main() {
         case ' ':
              cursor.color = (cursor.color + 1) % 16;
              break;
-        case ENTER:
-            cursor.background = (cursor.background + 1) % 16;
-            break;
         case 'n':
             pic = initPicture();
             break;
         case 'm':
-            draw(pic,cursor);
+            if(pic.h > 1 && pic.w > 1)
+                draw(pic,cursor);
             break;
+        default:
+            changeColor(&cursor, zn);
 		}
 
 

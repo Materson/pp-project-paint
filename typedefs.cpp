@@ -46,8 +46,8 @@ typedef struct
 {
     coordinate_t co = {START_P_X, START_P_Y};
     char value = '*';
-    int color = LIGHTGRAY;
     int background = BLACK;
+    int colors[16] = {'0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y'};
 }cursor_t;
 
 typedef struct
