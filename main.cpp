@@ -7,30 +7,32 @@
    wartosci numeryczne umieszczajac w ich miejsce
    dobrze dobrane identyfikatory */
 
-void displayMenu(menu_t menu, char zn, status_t status)
+void displayMenu(menu_t menu, char zn, picture_t pic)
 {
     textcolor(TEXT_COLOR);
     gotoxy(menu.co.x, menu.co.y);
 
-    switch(status)
+    switch(pic.status)
     {
     case DEFAULT:
         cputs("esc = wyjscie");
         gotoxy(menu.co.x, menu.co.y+1);
-        cputs("strzalki = poruszanie");
-        gotoxy(menu.co.x, menu.co.y+2);
-        cputs("spacja = zmiana koloru");
-        gotoxy(menu.co.x, menu.co.y+3);
         cputs("n = nowy obraz");
-        gotoxy(menu.co.x, menu.co.y+4);
+        gotoxy(menu.co.x, menu.co.y+2);
         break;
     case DRAW:
         cputs("esc = wyjscie");
         gotoxy(menu.co.x, menu.co.y+1);
-        cputs("strzalki = poruszanie");
+        cputs("n = nowy obraz");
         gotoxy(menu.co.x, menu.co.y+2);
-        cputs("spacja = zmiana koloru");
+        cputs("strzalki = poruszanie");
         gotoxy(menu.co.x, menu.co.y+3);
+        cputs("spacja = postaw kolor");
+        gotoxy(menu.co.x, menu.co.y+4);
+        cputs("0-9, q,w,e,r,t,y = zmiana koloru");
+        gotoxy(menu.co.x, menu.co.y+5);
+        cputs("Nazwa obrazu: "); cputs(pic.name);
+        gotoxy(menu.co.x, menu.co.y+6);
         break;
     }
 
@@ -46,7 +48,6 @@ void displayMenu(menu_t menu, char zn, status_t status)
 		itoa(zn, menu.key_code + 16, 16);
 		}
 
-	gotoxy(menu.co.x, menu.co.y+4);
 	cputs(menu.key_code);
 }
 
@@ -75,6 +76,26 @@ int getint()
     }
 }
 
+void gettxt(char *text)
+{
+    int zn = NULL, i = 0;
+    while(zn != ENTER && i<(MAX_NAME - 1))
+    {
+        zn = getch();
+        if((zn >= 'a' && zn <= 'z') ||
+           (zn >= 'A' && zn <= 'Z') ||
+           (zn >= '0' && zn <= '9') ||
+           (zn == '(' || zn == ')'))
+        {
+            text[i] = zn;
+            putch(zn);
+            i++;
+        }
+    }
+    text[i] = '\0';
+    cputs("\n");
+}
+
 picture_t initPicture()
 {
     picture_t pic;
@@ -82,6 +103,13 @@ picture_t initPicture()
     textcolor(TEXT_COLOR);
     clrscr();
     gotoxy(1,1);
+
+    cputs("Podaj nazwe obrazka: ");
+
+    do
+    {
+        gettxt(pic.name);
+    }while(pic.name[0] == NULL);
 
     //get size
     cputs("Podaj rozmiar obrazka\n");
@@ -116,7 +144,7 @@ picture_t initPicture()
     for(int i=0; i<pic.h; i++)
         for(int j=0; j<pic.w; j++)
         {
-            pic.pixels[i][j] = WHITE;
+            pic.pixels[i][j] = DEFAULT_MATRIX;
         }
 
     pic.status = DRAW;
@@ -170,7 +198,7 @@ int main() {
     cursor_t cursor;
     picture_t pic;
 	int zn = 0;
-	textcolor(TEXT_COLOR);
+	textcolor(LIGHTGRAY);
 
 	// je¿eli program jest kompilowany w czystym jêzyku C
 	// proszê odkomentowaæ poni¿sz¹ liniê
@@ -181,7 +209,7 @@ int main() {
 		textbackground(CONSOLE_BACKGROUND);
 		clrscr();
 
-		displayMenu(menu,zn, pic.status);
+		displayMenu(menu,zn, pic);
 
         switch(pic.status)
         {
@@ -212,20 +240,18 @@ int main() {
             if(zn == UP) if((cursor.co.y = (cursor.co.y - 1)) < START_P_Y) cursor.co.y = START_P_Y + pic.h - 1;
             if(zn == LEFT) if((cursor.co.x = (cursor.co.x  - 1)) < START_P_X) cursor.co.x = START_P_X + pic.w - 1;
             break;
-        case ' ':
-             cursor.color = (cursor.color + 1) % 16;
-             break;
         case 'n':
             pic = initPicture();
+            cursor.co.x = START_P_X;
+            cursor.co.y = START_P_Y;
             break;
-        case 'm':
-            if(pic.h > 1 && pic.w > 1)
+        case ' ':
+            if(pic.status == DRAW)
                 draw(pic,cursor);
             break;
         default:
             changeColor(&cursor, zn);
 		}
-
 
 	} while (zn != ESC);
 

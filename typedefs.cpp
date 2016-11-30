@@ -12,17 +12,23 @@
 #define ESC 0x1b
 #define ENTER 0x0d
 
-#define CONSOLE_BACKGROUND DARKGRAY
-#define TEXT_COLOR BLACK
+#define CONSOLE_BACKGROUND BLACK
+#define TEXT_COLOR DARKGRAY
+#define DEFAULT_MATRIX WHITE
+
+
+#define MAX_NAME 40
 
 
 
 typedef enum
 {
+    END,
     DEFAULT,
     DRAW,
     DRAW_LINE,
     DRAW_RECTANGLE,
+    NEW_FILE,
     OPEN_FILE,
     SELECT_AREA,
     COPY,
@@ -52,7 +58,7 @@ typedef struct
 
 typedef struct
 {
-    char name[];
+    char name[MAX_NAME];
     int w=1,h=1;
     char **pixels;
     status_t status = DEFAULT;
